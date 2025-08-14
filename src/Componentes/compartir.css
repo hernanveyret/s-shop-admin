@@ -1,0 +1,25 @@
+.container-compartir {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;  
+}
+
+.container-btn {
+  width: 40%;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  border-radius: 10px;
+  gap: 10px;
+}
+
+@media (max-width: 768px) {
+  .container-btn {
+    width: 80%;
+  }
+}
