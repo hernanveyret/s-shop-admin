@@ -91,7 +91,7 @@ const EditarProducto = ({ setIsEditProducto,
   };
 const eliminarImagenAnterior = async () => {
   try {
-    const res = await fetch('http://localhost:3000/api/eliminar-imagen', {
+    const res = await fetch('https://e-shop-server-kappa.vercel.app/api/eliminar-imagen', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
