@@ -74,16 +74,18 @@ label {
 .contenedor-input-talles {
   width: 100%;
   display: flex;
-  
 }
 .contenedor-lista-talles {
   height: 40px;
   width: 100%;
   display: flex;
-  justify-content: flex-start;
+}
+.contenedor-lista-talles button {
+  margin: 5px;
+  padding: 15px;
+  display: flex;
+  justify-content: center;
   align-items: center;
-  gap: 5px;
-  flex-wrap: wrap;
 }
 
 /* Modo Movile */

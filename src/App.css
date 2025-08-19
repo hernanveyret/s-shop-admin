@@ -64,15 +64,7 @@ input[type='password'] {
   display: flex;
   gap: 10px;
 }
-.contenedor-lista-talles {
-  height: 40px;
-  width: 100%;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 5px;
-  flex-wrap: wrap;
-}
+
 /* ---------------------------------------------------------------------- */
 header {
   box-shadow: 2px 2px 4px grey;

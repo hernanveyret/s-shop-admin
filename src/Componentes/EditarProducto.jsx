@@ -58,10 +58,6 @@ const EditarProducto = ({ setIsEditProducto,
     });
   };
 
-  useEffect(() => {
-    console.log(productoEditar)
-  },[productoEditar])
-
   const subirACloudinary = async (webpBlob, originalName) => {
     const baseName = originalName.split('.').slice(0, -1).join('.');
     const webpFileName = `${baseName}.webp`;
@@ -117,10 +113,6 @@ const eliminarImagenAnterior = async () => {
     setTallesLetras([...tallesLetras, watch('talleLetra')]);
     setValue('talleLetra', '');
   }
-
-  useEffect(() => {
-    console.log(tallesLetras)
-  },[tallesLetras])
 
   const onSubmit = async (data) => {
     let nuevaUrl = productoEditar.urlImg;
@@ -317,7 +309,8 @@ const eliminarImagenAnterior = async () => {
         >Cargar</button>
         </div>
         <div className="contenedor-lista-talles">
-          {
+          { 
+            
             productoEditar.tallesLetras.length > 0 && 
               productoEditar.tallesLetras.map((talle, i) => (
                 <button type="button" key={i}>{talle}</button>

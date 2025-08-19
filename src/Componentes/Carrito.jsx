@@ -85,10 +85,10 @@ const Carrito = ({
         <p><strong>{prod.titulo}</strong></p>
         <p>{prod.descripcion}</p>
       {
-        prod.marca && <p>{prod.marca}</p>
+        prod.marca && <p>{prod.marca && prod.marca[0].toUpperCase() + prod.marca.slice(1)}</p>
       }
       {
-        prod.color && <p>{prod.color}</p>
+        prod.color && <p>{prod.color && prod.color[0].toUpperCase() + prod.color.slice(1)}</p>
       }
               
       {
@@ -104,7 +104,7 @@ const Carrito = ({
         prod.tallesNumericosDesde && prod.tallesNumericosHasta && (
           <ul className="lista-talles">
             <li>{prod.tallesNumericosDesde}</li>
-              <li>AL</li>
+              <li style={{fontSize:'13px', color :'grey'}}>AL</li>
             <li>{prod.tallesNumericosHasta}</li>
           </ul>
         )
