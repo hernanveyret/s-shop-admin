@@ -85,12 +85,12 @@ const Carrito = ({
         <p><strong>{prod.titulo}</strong></p>
         <p>{prod.descripcion}</p>
       {
-        prod.color && <p>{prod.color}</p>
-      }
-      {
         prod.marca && <p>{prod.marca}</p>
       }
-        
+      {
+        prod.color && <p>{prod.color}</p>
+      }
+              
       {
         prod.tallesLetras && (
           <ul className="lista-talles">
@@ -103,11 +103,9 @@ const Carrito = ({
       {
         prod.tallesNumericosDesde && prod.tallesNumericosHasta && (
           <ul className="lista-talles">
-            { 
-              numerosCalzados.map((num, indice) => (
-                <li key={indice}>{num}</li>
-              ))
-            }
+            <li>{prod.tallesNumericosDesde}</li>
+              <li>AL</li>
+            <li>{prod.tallesNumericosHasta}</li>
           </ul>
         )
 

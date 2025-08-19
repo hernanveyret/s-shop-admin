@@ -151,6 +151,7 @@ const eliminarImagenAnterior = async () => {
       color: watch('color') ? watch('color') : productoEditar.color,
       tallesNumericosDesde: watch('talleDesde') ? watch('talleDesde') : productoEditar.tallesNumericosDesde,
       tallesNumericosHasta: watch('talleHasta') ? watch('talleHasta') : productoEditar.tallesNumericosHasta, 
+      marca: watch('marca') ? watch('marca') : productoEditar.marca
     };
 
     const result = await editarProducto(productoEditar.id, productoActualizado);
