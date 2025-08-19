@@ -26,6 +26,8 @@ const EditarProducto = ({ setIsEditProducto,
   const [archivoOriginal, setArchivoOriginal] = useState(null);
   const [ isTallesNumericos, setIsTallesNumericos ] = useState(false);
   const [ isTallesLetras, setIsTallesLetras ] = useState(false);
+  const [ isColor, setIsColor ] = useState(false);
+  const [ isMarca, setIsMarca ] = useState(false);
   const [ tallesLetras, setTallesLetras ] = useState([]);
 
   const convertirAWebP = (file) => {
@@ -146,8 +148,9 @@ const eliminarImagenAnterior = async () => {
       public_id: nuevoPublicId ? nuevoPublicId : productoEditar.public_id,
       categoria: data.categoria || productoEditar.categoria,
       tallesLetras: tallesLetras ? tallesLetras : productoEditar.tallesLetras,
-      tallesNumericosDesde: '',
-      tallesNumericosHasta: ''          
+      color: watch('color') ? watch('color') : productoEditar.color,
+      tallesNumericosDesde: watch('talleDesde') ? watch('talleDesde') : productoEditar.tallesNumericosDesde,
+      tallesNumericosHasta: watch('talleHasta') ? watch('talleHasta') : productoEditar.tallesNumericosHasta, 
     };
 
     const result = await editarProducto(productoEditar.id, productoActualizado);
@@ -229,11 +232,66 @@ const eliminarImagenAnterior = async () => {
         </label>
         {errors.precio && <p>{errors.precio.message}</p>}
 
+        <label>
+          Marca
+          <input type="checkbox" onChange={(e) => { setIsMarca((prev) => !prev)}}/>
+        </label>
+        {
+          isMarca &&
+            <label className="lebel-talles-letras">
+          <div className="contenedor-input-talles">
+        <input type="text" placeholder="Marca" 
+          defaultValue={productoEditar.marca}
+          className='input-talles-color'
+          {...register('marca', {
+            required:{
+              value: false,
+              message:'Campo obligatorio'
+            },
+            pattern: {
+              value: /^[A-Za-z/*\-+_.\\]+$/, 
+              message:'Ingrese solo Letras'
+            }
+          })}
+        />
+        </div>
+        </label>
+        }
+
+        <label>
+          Color
+          <input type="checkbox" checked={productoEditar.color ? true : false } onChange={(e) => { setIsColor((prev) => !prev)}}/>
+        </label>
+        {
+           isColor || productoEditar.color ?
+        <label className="lebel-talles-letras">
+          <div className="contenedor-input-talles">
+        <input type="text" placeholder="Color" 
+        defaultValue={productoEditar.color ? productoEditar.color : 'Color'}
+          className='input-talles-color'
+          {...register('color', {
+            required:{
+              value: false,
+              message:'Campo obligatorio'
+            },
+            pattern: {
+              value: /^[A-Za-z/*\-+_.\\]+$/, 
+              message:'Ingrese solo Letras'
+            }
+          })}
+        />
+        </div>
+        </label>
+        :
+        ''
+        }
+
          <label>
           Talles Letras
-          <input type="checkbox" onChange={(e) => { setIsTallesLetras((prev) => !prev)}}/>
+          <input type="checkbox" checked={productoEditar.tallesLetras.length > 0 ? true : false }onChange={(e) => { setIsTallesLetras((prev) => !prev)}}/>
         </label>
-        { isTallesLetras && 
+        { 
+        isTallesLetras || productoEditar.tallesLetras.length > 0 ? 
         <label className="lebel-talles-letras">
           <div className="contenedor-input-talles">
         <input type="text" placeholder="Talle" 
@@ -257,13 +315,49 @@ const eliminarImagenAnterior = async () => {
         </div>
         <div className="contenedor-lista-talles">
           {
-            tallesLetras && 
-              tallesLetras.map((talle, i) => (
+            productoEditar.tallesLetras.length > 0 && 
+              productoEditar.tallesLetras.map((talle, i) => (
                 <button type="button" key={i}>{talle}</button>
               ))
           }
         </div>
-        </label>          
+        </label>
+        :
+        ''       
+        }
+        <label>
+          Talles Numéricos
+          <input type="checkbox" checked={productoEditar.tallesNumericosDesde ? true : false} onChange={(e) => { setIsTallesNumericos((prev) => !prev)}}/>
+        </label>
+        { isTallesNumericos || productoEditar.tallesNumericosDesde && 
+        <label>
+        <input type="text" placeholder="Desde" 
+        defaultValue={productoEditar.tallesNumericosDesde}
+          {...register('talleDesde', {
+            required:{
+              value: true,
+              message:'Campo obligatorio'
+            },
+            pattern: {
+              value: /^[0-9]+([.][0-9]+)?$/,
+              message:'Ingrese solo numeros'
+            }
+          })}
+        /> 
+         <input type="text" placeholder="Hasta"
+         defaultValue={productoEditar.tallesNumericosHasta}
+          {...register('talleHasta', {
+            required:{
+              value: true,
+              message:'Campo obligatorio'
+            },
+            pattern: {
+              value: /^[0-9]+([.][0-9]+)?$/,
+              message:'Ingrese solo numeros'
+            }
+          })}
+        />
+        </label>  
         }
 
         <label>

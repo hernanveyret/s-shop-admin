@@ -84,9 +84,13 @@ const Carrito = ({
       <div className="fila-datos">
         <p><strong>{prod.titulo}</strong></p>
         <p>{prod.descripcion}</p>
-        {
-          prod.color && <p>{prod.color}</p>
-        }
+      {
+        prod.color && <p>{prod.color}</p>
+      }
+      {
+        prod.marca && <p>{prod.marca}</p>
+      }
+        
       {
         prod.tallesLetras && (
           <ul className="lista-talles">
