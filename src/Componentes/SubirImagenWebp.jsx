@@ -18,7 +18,8 @@ function SubirImagenWebP({setAdd,
   const [ isOferta, setIsOferta ] = useState(false);
   const [ isTallesNumericos, setIsTallesNumericos ] = useState(false);
   const [ isTallesLetras, setIsTallesLetras ] = useState(false);
-  const [ isColor, setIsColor ] = useState(false)
+  const [ isColor, setIsColor ] = useState(false);
+  const [ isMarca, setIsMarca ] = useState(false);
   const [ tallesLetras, setTallesLetras ] = useState([]);
   const [ publicId, setIsPublicId ] = useState(null);
   const [ mensageErrorImagen, setMensageErrorImagen ] = useState(null)
@@ -115,12 +116,18 @@ useEffect(() => {
       tallesNumericosDesde: isTallesNumericos ? Number(watch('talleDesde')): '',
       tallesNumericosHasta: isTallesNumericos ? Number(watch('talleHasta')): '',
       tallesLetras: tallesLetras ? tallesLetras : '',
-      color: watch('color') ? watch('color') : ''
+      color: watch('color') ? watch('color') : '',
+      marca: watch('marca') ? watch('marca') : ''
     };
     guardarProducto(productoNuevo);
     reset();
     setTextoConfirm('Nuevo producto creado')
     setIsConfirm(true);
+    setIsOferta(false);
+    setIsTallesNumericos(false);
+    setIsTallesLetras(false);
+    setIsColor(false);
+    setIsMarca(false);
   }
 }, [url, publicId]);
 
@@ -197,13 +204,39 @@ useEffect(() => {
         />
         </label>
           { errors.precio?.message && <p style={{color:'red'}}>{errors.precio.message}</p>}
-          <label>
+
+        <label>
+          Marca
+          <input type="checkbox" onChange={(e) => { setIsMarca((prev) => !prev)}}/>
+        </label>
+        {
+          isMarca &&
+            <label className="lebel-talles-letras">
+          <div className="contenedor-input-talles">
+        <input type="text" placeholder="Marca" 
+          className='input-talles-color'
+          {...register('marca', {
+            required:{
+              value: false,
+              message:'Campo obligatorio'
+            },
+            pattern: {
+              value: /^[A-Za-z/*\-+_.\\]+$/, 
+              message:'Ingrese solo Letras'
+            }
+          })}
+        />
+        </div>
+        </label>
+        }
+
+        <label>
           Color
           <input type="checkbox" onChange={(e) => { setIsColor((prev) => !prev)}}/>
         </label>
         {
           isColor &&
-            <label className="lebel-talles-letras">
+        <label className="lebel-talles-letras">
           <div className="contenedor-input-talles">
         <input type="text" placeholder="Color" 
           className='input-talles-color'
@@ -213,7 +246,7 @@ useEffect(() => {
               message:'Campo obligatorio'
             },
             pattern: {
-              value: /^[A-Za-z]+$/,
+              value: /^[A-Za-z/*\-+_.\\]+$/, 
               message:'Ingrese solo Letras'
             }
           })}
