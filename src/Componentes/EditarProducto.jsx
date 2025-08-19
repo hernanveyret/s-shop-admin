@@ -19,10 +19,14 @@ const EditarProducto = ({ setIsEditProducto,
     formState: { errors },
     watch,
     reset,
+    setValue
   } = useForm();
 
   const [isOfertaEdit, setIsOfertaEdit] = useState(productoEditar.oferta);
   const [archivoOriginal, setArchivoOriginal] = useState(null);
+  const [ isTallesNumericos, setIsTallesNumericos ] = useState(false);
+  const [ isTallesLetras, setIsTallesLetras ] = useState(false);
+  const [ tallesLetras, setTallesLetras ] = useState([]);
 
   const convertirAWebP = (file) => {
     return new Promise((resolve) => {
@@ -52,15 +56,18 @@ const EditarProducto = ({ setIsEditProducto,
     });
   };
 
+  useEffect(() => {
+    console.log(productoEditar)
+  },[productoEditar])
+
   const subirACloudinary = async (webpBlob, originalName) => {
     const baseName = originalName.split('.').slice(0, -1).join('.');
     const webpFileName = `${baseName}.webp`;
-
     
     const formData = new FormData();
     formData.append('file', webpBlob, webpFileName);
     formData.append('upload_preset', 'carrito_upload');
-    formData.append('folder', 'productos');
+    formData.append('folder', 'e-shop');
 
     const res = await fetch(
       'https://api.cloudinary.com/v1_1/dujru85ae/image/upload',
@@ -84,7 +91,7 @@ const EditarProducto = ({ setIsEditProducto,
   };
 const eliminarImagenAnterior = async () => {
   try {
-    const res = await fetch('https://m3p-server.vercel.app/api/eliminar-imagen', {
+    const res = await fetch('http://localhost:3000/api/eliminar-imagen', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -103,6 +110,15 @@ const eliminarImagenAnterior = async () => {
     console.error('🛑 Error al eliminar imagen anterior:', error);
   }
 };
+
+  const cargarTallesLetras = () => {
+    setTallesLetras([...tallesLetras, watch('talleLetra')]);
+    setValue('talleLetra', '');
+  }
+
+  useEffect(() => {
+    console.log(tallesLetras)
+  },[tallesLetras])
 
   const onSubmit = async (data) => {
     let nuevaUrl = productoEditar.urlImg;
@@ -129,6 +145,9 @@ const eliminarImagenAnterior = async () => {
       urlImg: nuevaUrl ? nuevaUrl : productoEditar.urlImg,
       public_id: nuevoPublicId ? nuevoPublicId : productoEditar.public_id,
       categoria: data.categoria || productoEditar.categoria,
+      tallesLetras: tallesLetras ? tallesLetras : productoEditar.tallesLetras,
+      tallesNumericosDesde: '',
+      tallesNumericosHasta: ''          
     };
 
     const result = await editarProducto(productoEditar.id, productoActualizado);
@@ -209,6 +228,43 @@ const eliminarImagenAnterior = async () => {
           />
         </label>
         {errors.precio && <p>{errors.precio.message}</p>}
+
+         <label>
+          Talles Letras
+          <input type="checkbox" onChange={(e) => { setIsTallesLetras((prev) => !prev)}}/>
+        </label>
+        { isTallesLetras && 
+        <label className="lebel-talles-letras">
+          <div className="contenedor-input-talles">
+        <input type="text" placeholder="Talle" 
+          className='input-talles-letras'
+          {...register('talleLetra', {
+            required:{
+              value: false,
+              message:'Campo obligatorio'
+            },
+            pattern: {
+              value: /^[A-Za-z]+$/,
+              message:'Ingrese solo Letras'
+            }
+          })}
+        />
+        <button
+          className="btn-cargar"
+          type="button"
+          onClick={() => { cargarTallesLetras()}}
+        >Cargar</button>
+        </div>
+        <div className="contenedor-lista-talles">
+          {
+            tallesLetras && 
+              tallesLetras.map((talle, i) => (
+                <button type="button" key={i}>{talle}</button>
+              ))
+          }
+        </div>
+        </label>          
+        }
 
         <label>
           Oferta

@@ -23,7 +23,8 @@ import { loginConMail,
          cambiarContrasena,
          guardarPrecioEnvio,
          guardarDatosbancarios,
-         getDataDatosBancarios
+         getDataDatosBancarios,
+         getDataCostoEnvio
         } from './firebase/auth.js';
 import EditarCategoria from './Componentes/EditarCategoria.jsx';
 import FormAuth from './Componentes/FormAuth.jsx';
@@ -41,6 +42,7 @@ function App() {
   const [ usuario, setUsuario ] = useState(null);
   const [ categorias, setCategorias ] = useState([]);
   const [ datosDeBanco, setDatoDebanco ] = useState({})
+  const [ valorDeEnvio, setValorDeEnvio ] = useState({});
   const [ idCategoria, setIdCategoria ] = useState(null);
   const [ nombreCategoria, setNombreCategoria ] = useState(null)
   const [ isEditProducto, setIsEditProducto ] = useState(false);
@@ -113,9 +115,11 @@ function App() {
   useEffect(() => {
     const unsubscribeCategorias = getDataCategorias(setCategorias);
     const unsubscribeDatosBancarios = getDataDatosBancarios(setDatoDebanco);
+    const unsubscribeValorDeEnvio = getDataCostoEnvio(setValorDeEnvio);
     return () => {
       if(unsubscribeCategorias) unsubscribeCategorias(); // Limpia el listener cuando se desmonta
       if(unsubscribeDatosBancarios) unsubscribeDatosBancarios(); // Limpia el listener cuando se desm
+      if(unsubscribeValorDeEnvio) unsubscribeValorDeEnvio(); // Limpia el listener cuando se desm
     }
     
   }, []);
@@ -123,7 +127,7 @@ function App() {
   // eliminar imagen de cloudinary productos ok
   const eliminarImagen = async (carpeta, publicId) => {    
     try {
-      const res = await fetch('https://m3p-server.vercel.app/api/eliminar-imagen', {
+      const res = await fetch('http://localhost:3000/api/eliminar-imagen', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -141,6 +145,7 @@ function App() {
       }
     } catch (err) {
       setTextoConfirm(`Error en Fetch: ${err.message}`);
+      console.log(err)
         setIsConfirm(true)
     }
       
@@ -419,6 +424,7 @@ const onSubmit = async (data) => {
     return (
       <div className="contenedor-envio">
         <h4>Ingrese el valor del envio</h4>
+        <p>Actual: ${valorDeEnvio?.[0]?.envio?.envio}</p>
         <form 
         className="costo-envio-form"
         onSubmit={handleSubmit(cargarEnvio)}>

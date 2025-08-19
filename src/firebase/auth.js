@@ -106,6 +106,22 @@ export const getData = (callback) => {
   }
 };
 
+// Escuchar cambios en tiempo real los costos de envio
+export const getDataCostoEnvio = (callback) => {
+  try {
+    const unsubscribe = onSnapshot(collection(db,'envio'), snapshot => {
+      const usuarios = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+    }))
+    callback(usuarios);
+  })
+  return unsubscribe;
+  } catch (error) {
+    callback([]);
+  }
+};
+
 // Escuchar cambios en tiempo real y descargarlos datos bancarios
 export const getDataDatosBancarios = (callback) => {
   try {
@@ -159,6 +175,7 @@ export const borrarCategoria = async (nombreColeccion,id) => {
 }
 
 export const editarProducto = async (idProducto, update) => {
+  
   try {
     const docRef = doc(db,"productos", idProducto);
     const result = await setDoc(docRef, update);
@@ -234,7 +251,7 @@ export const cambiarContrasena = async (user, contraseñaActual, nuevaContrasena
 };
 
 // Escucha si hay un usuario autenticado
-
+/*
 onAuthStateChanged(auth, (user) => {
   if (user) {
     console.log("✅ UID del admin:", user.uid);
@@ -242,3 +259,4 @@ onAuthStateChanged(auth, (user) => {
     console.log("⛔ No hay usuario logueado");
   }
 });
+*/

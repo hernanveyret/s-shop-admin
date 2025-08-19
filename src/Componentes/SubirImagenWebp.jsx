@@ -16,6 +16,10 @@ function SubirImagenWebP({setAdd,
   const [ nuevoProducto, setNuevoProducto ] = useState();
   const [ archivoOriginal, setAchivoOriginal ] = useState(null)
   const [ isOferta, setIsOferta ] = useState(false);
+  const [ isTallesNumericos, setIsTallesNumericos ] = useState(false);
+  const [ isTallesLetras, setIsTallesLetras ] = useState(false);
+  const [ isColor, setIsColor ] = useState(false)
+  const [ tallesLetras, setTallesLetras ] = useState([]);
   const [ publicId, setIsPublicId ] = useState(null);
   const [ mensageErrorImagen, setMensageErrorImagen ] = useState(null)
   
@@ -25,7 +29,8 @@ function SubirImagenWebP({setAdd,
     handleSubmit,
     formState: { errors },
     watch,
-    reset
+    reset,
+    setValue
   } = useForm();
 
   const handleChange = async (e) => {        
@@ -106,7 +111,11 @@ useEffect(() => {
       categoria: watch('categoria'),
       public_id: publicId,
       favorito: false,
-      activate: isActivate
+      activate: isActivate,
+      tallesNumericosDesde: isTallesNumericos ? Number(watch('talleDesde')): '',
+      tallesNumericosHasta: isTallesNumericos ? Number(watch('talleHasta')): '',
+      tallesLetras: tallesLetras ? tallesLetras : '',
+      color: watch('color') ? watch('color') : ''
     };
     guardarProducto(productoNuevo);
     reset();
@@ -115,6 +124,10 @@ useEffect(() => {
   }
 }, [url, publicId]);
 
+  const cargarTallesLetras = () => {
+    setTallesLetras([...tallesLetras, watch('talleLetra')]);
+    setValue('talleLetra', '');
+  }
 
   const onSubmit = async (data) => {
   if (!archivoOriginal) {
@@ -184,6 +197,100 @@ useEffect(() => {
         />
         </label>
           { errors.precio?.message && <p style={{color:'red'}}>{errors.precio.message}</p>}
+          <label>
+          Color
+          <input type="checkbox" onChange={(e) => { setIsColor((prev) => !prev)}}/>
+        </label>
+        {
+          isColor &&
+            <label className="lebel-talles-letras">
+          <div className="contenedor-input-talles">
+        <input type="text" placeholder="Color" 
+          className='input-talles-color'
+          {...register('color', {
+            required:{
+              value: false,
+              message:'Campo obligatorio'
+            },
+            pattern: {
+              value: /^[A-Za-z]+$/,
+              message:'Ingrese solo Letras'
+            }
+          })}
+        />
+        </div>
+        </label>
+        }
+
+          <label>
+          Talles Letras
+          <input type="checkbox" onChange={(e) => { setIsTallesLetras((prev) => !prev)}}/>
+        </label>
+        { isTallesLetras && 
+        <label className="lebel-talles-letras">
+          <div className="contenedor-input-talles">
+        <input type="text" placeholder="Talle" 
+          className='input-talles-letras'
+          {...register('talleLetra', {
+            required:{
+              value: false,
+              message:'Campo obligatorio'
+            },
+            pattern: {
+              value: /^[A-Za-z]+$/,
+              message:'Ingrese solo Letras'
+            }
+          })}
+        />
+        <button
+          className="btn-cargar"
+          type="button"
+          onClick={() => { cargarTallesLetras()}}
+        >Cargar</button>
+        </div>
+        <div className="contenedor-lista-talles">
+          {
+            tallesLetras && 
+              tallesLetras.map((talle, i) => (
+                <button type="button" key={i}>{talle}</button>
+              ))
+          }
+        </div>
+        </label>          
+        }
+
+        <label>
+          Talles Numéricos
+          <input type="checkbox" onChange={(e) => { setIsTallesNumericos((prev) => !prev)}}/>
+        </label>
+        { isTallesNumericos && 
+        <label>
+        <input type="text" placeholder="Desde" 
+          {...register('talleDesde', {
+            required:{
+              value: true,
+              message:'Campo obligatorio'
+            },
+            pattern: {
+              value: /^[0-9]+([.][0-9]+)?$/,
+              message:'Ingrese solo numeros'
+            }
+          })}
+        />
+         <input type="text" placeholder="Hasta" 
+          {...register('talleHasta', {
+            required:{
+              value: true,
+              message:'Campo obligatorio'
+            },
+            pattern: {
+              value: /^[0-9]+([.][0-9]+)?$/,
+              message:'Ingrese solo numeros'
+            }
+          })}
+        />
+        </label>  
+        }
 
         <label>
           Oferta

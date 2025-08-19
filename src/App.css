@@ -48,6 +48,31 @@ input[type='password'] {
 .btn-login-google button:hover {
   background-color: rgb(5, 98, 160);
 }
+.lebel-talles-letras {
+  display: flex;
+  flex-direction: column;
+}
+.form-productos .contenedor-input-talles .input-talles-letras {
+  width: 50px;
+}
+.btn-cargar {
+  padding: 7px;
+  font-size: 14px;
+}
+.contenedor-input-talles {
+  width: 100%;
+  display: flex;
+  gap: 10px;
+}
+.contenedor-lista-talles {
+  height: 40px;
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 5px;
+  flex-wrap: wrap;
+}
 /* ---------------------------------------------------------------------- */
 header {
   box-shadow: 2px 2px 4px grey;

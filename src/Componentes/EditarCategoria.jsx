@@ -37,7 +37,7 @@ const EditarCategoria = ({
     const formData = new FormData();
     formData.append('file', webpBlob, webpFileName);
     formData.append('upload_preset', 'carrito_upload');
-    formData.append('folder', 'productos');
+    formData.append('folder', 'e-shop');
 
     const res = await fetch('https://api.cloudinary.com/v1_1/dujru85ae/image/upload', {
       method: 'POST',
@@ -83,7 +83,7 @@ const EditarCategoria = ({
 
   const eliminarImagenAnterior = async () => {
     try {
-      const res = await fetch('https://m3p-server.vercel.app/api/eliminar-imagen', {
+      const res = await fetch('http://localhost:3000/api/eliminar-imagen', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ public_id: categoriaElejida?.public_id }),

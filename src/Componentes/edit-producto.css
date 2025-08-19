@@ -52,6 +52,40 @@ label {
   align-items: center;
 }
 
+.lebel-talles-letras {
+  display: flex;
+  flex-direction: column;
+}
+
+.contenedor-input-talles .input-talles-letras {
+  width: 50px;
+}
+.contenedor-input-talles .input-talles-color {
+  width: 100px;
+}
+.contenedor-input-talles .btn-cargar {
+  padding: 7px;
+  width: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+}
+.contenedor-input-talles {
+  width: 100%;
+  display: flex;
+  
+}
+.contenedor-lista-talles {
+  height: 40px;
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
 /* Modo Movile */
 @media (max-width: 768px) {
   .edit-producto-form {

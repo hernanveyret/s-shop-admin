@@ -22,8 +22,8 @@ const Carrito = ({
   setBorrar
 }) => {
   const [categoriaFiltrada, setCategoriaFiltrada] = useState('');
-  const [ productoSelect, setProductoSelect ] = useState(null)
-
+  const [ productoSelect, setProductoSelect ] = useState(null);
+  
   const sacarOferta = (precio, porcentaje) => {
     const precioOff = precio * porcentaje / 100;
     return (precio - precioOff).toFixed(2);
@@ -49,7 +49,6 @@ const Carrito = ({
     }
   },[borrar])
 
-
   const handleEliminarProducto = async (prod) => {
       
     try {
@@ -69,19 +68,48 @@ const Carrito = ({
       console.error('❌ Error al cambiar estado activate:', error);
     }
   };
-
- 
-
-  const renderProducto = (prod) => (
+  
+  const renderProducto = (prod) => {
+    let numerosCalzados = []
+    if( prod.tallesNumericosDesde && prod.tallesNumericosHasta) {
+    for(let i = prod.tallesNumericosDesde; i <= prod.tallesNumericosHasta; i++ ){
+      numerosCalzados.push(i)
+    }
+  }  
+    
+    return (
     <div key={prod.id} className="fila-producto">
       <img src={prod.urlImg} alt={prod.titulo} />
 
       <div className="fila-datos">
         <p><strong>{prod.titulo}</strong></p>
         <p>{prod.descripcion}</p>
-        <p>$ {prod.oferta ? sacarOferta(prod.precio, prod.porcentajeOff) : prod.precio}</p>
+        {
+          prod.color && <p>{prod.color}</p>
+        }
+      {
+        prod.tallesLetras && (
+          <ul className="lista-talles">
+            {prod.tallesLetras.map((talle, indice) => (
+              <li key={indice}>{talle}</li>
+            ))}
+          </ul>
+        )
+      }
+      {
+        prod.tallesNumericosDesde && prod.tallesNumericosHasta && (
+          <ul className="lista-talles">
+            { 
+              numerosCalzados.map((num, indice) => (
+                <li key={indice}>{num}</li>
+              ))
+            }
+          </ul>
+        )
 
-        
+      }
+
+        <p>$ {prod.oferta ? sacarOferta(prod.precio, prod.porcentajeOff) : prod.precio}</p>
         {prod.oferta ? (
           <p>🟢 Oferta {prod.porcentajeOff}% OFF</p>
         )
@@ -127,7 +155,8 @@ const Carrito = ({
         </button>
       </div>
     </div>
-  );
+    )
+  };
 
   const productosAMostrar = categoriaFiltrada
     ? productos.filter(p => p.categoria.toLowerCase() === categoriaFiltrada.toLowerCase())
@@ -159,6 +188,4 @@ const Carrito = ({
     </div>
   );
 };
-
 export default Carrito;
-
