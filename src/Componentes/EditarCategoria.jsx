@@ -83,6 +83,10 @@ const EditarCategoria = ({
 
   const eliminarImagenAnterior = async () => {
     try {
+
+       if (!categoriaElejida?.public_id) {     
+          return;
+      }
       const res = await fetch('https://e-shop-server-kappa.vercel.app/api/eliminar-imagen', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
