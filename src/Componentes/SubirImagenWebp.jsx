@@ -256,7 +256,7 @@ useEffect(() => {
         }
 
           <label>
-          Talles Letras
+          Talles
           <input type="checkbox" onChange={(e) => { setIsTallesLetras((prev) => !prev)}}/>
         </label>
         { isTallesLetras && 

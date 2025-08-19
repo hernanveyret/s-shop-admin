@@ -147,7 +147,7 @@ const eliminarImagenAnterior = async () => {
       urlImg: nuevaUrl ? nuevaUrl : productoEditar.urlImg,
       public_id: nuevoPublicId ? nuevoPublicId : productoEditar.public_id,
       categoria: data.categoria || productoEditar.categoria,
-      tallesLetras: tallesLetras ? tallesLetras : productoEditar.tallesLetras,
+      tallesLetras: tallesLetras.length > 0 ? tallesLetras : productoEditar.tallesLetras,
       color: watch('color') ? watch('color') : productoEditar.color,
       tallesNumericosDesde: watch('talleDesde') ? watch('talleDesde') : productoEditar.tallesNumericosDesde,
       tallesNumericosHasta: watch('talleHasta') ? watch('talleHasta') : productoEditar.tallesNumericosHasta, 
@@ -235,10 +235,10 @@ const eliminarImagenAnterior = async () => {
 
         <label>
           Marca
-          <input type="checkbox" onChange={(e) => { setIsMarca((prev) => !prev)}}/>
+          <input type="checkbox" checked={productoEditar.marca ? true : false } onChange={(e) => { setIsMarca((prev) => !prev)}}/>
         </label>
         {
-          isMarca &&
+          isMarca || productoEditar.marca ?
             <label className="lebel-talles-letras">
           <div className="contenedor-input-talles">
         <input type="text" placeholder="Marca" 
@@ -257,6 +257,8 @@ const eliminarImagenAnterior = async () => {
         />
         </div>
         </label>
+        :
+        ''
         }
 
         <label>
@@ -288,7 +290,7 @@ const eliminarImagenAnterior = async () => {
         }
 
          <label>
-          Talles Letras
+          Talles
           <input type="checkbox" checked={productoEditar.tallesLetras.length > 0 ? true : false }onChange={(e) => { setIsTallesLetras((prev) => !prev)}}/>
         </label>
         { 
