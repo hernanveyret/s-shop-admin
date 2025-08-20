@@ -46,6 +46,7 @@ const Carrito = ({
     if(borrar){
       handleEliminarProducto(productoSelect);
       setIsConfirmBorrado(false)
+      setBorrar(false);
     }
   },[borrar])
 
