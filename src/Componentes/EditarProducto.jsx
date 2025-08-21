@@ -135,7 +135,7 @@ const eliminarImagenAnterior = async () => {
       precio: Number(data.precio) || Number(productoEditar.precio),
       precioUnitario: Number(data.precio) || Number(productoEditar.precio),
       oferta: isOfertaEdit,
-      porcentajeOff: isOfertaEdit ? Number(data.porcentaje) : 0,
+      porcentajeOff: isOfertaEdit ? Number(data.porcentaje) : null,
       urlImg: nuevaUrl ? nuevaUrl : productoEditar.urlImg,
       public_id: nuevoPublicId ? nuevoPublicId : productoEditar.public_id,
       categoria: data.categoria || productoEditar.categoria,

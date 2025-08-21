@@ -107,7 +107,7 @@ useEffect(() => {
       precio: Number(watch('precio')),
       precioUnitario: Number(watch('precio')),
       oferta: isOferta,
-      porcentajeOff: isOferta ? Number(watch('porcentaje')): '',
+      porcentajeOff: isOferta ? Number(watch('porcentaje')): null,
       urlImg: url,
       categoria: watch('categoria'),
       public_id: publicId,
