@@ -26,7 +26,7 @@ const Carrito = ({
   
   const sacarOferta = (precio, porcentaje) => {
     const precioOff = precio * porcentaje / 100;
-    return (precio - precioOff).toFixed(2);
+    return Number((precio - precioOff).toFixed(2));
   };
 
   useEffect(() => {
@@ -41,6 +41,10 @@ const Carrito = ({
   const categoriaSelect = (e) => {
     setCategoriaFiltrada(e.target.value);
   };
+
+  useEffect(() => {
+    console.log(productos)
+  },[productos])
 
   useEffect(() => {
     if(borrar){
@@ -111,14 +115,15 @@ const Carrito = ({
         )
 
       }
-
-        <p>$ {prod.oferta ? sacarOferta(prod.precio, prod.porcentajeOff) : prod.precio}</p>
+        { prod.oferta && <p>{prod.precio.toLocaleString('es-AR', {  style: 'currency',  currency: 'ARS', minimumFractionDigits: 0, maximumFractionDigits: 0,})}</p>}
+        
         {prod.oferta ? (
           <p>🟢 Oferta {prod.porcentajeOff}% OFF</p>
         )
         :
         <p>🔴 No tiene oferta</p>
         }
+        <p>{prod.oferta ? sacarOferta(prod.precio, prod.porcentajeOff).toLocaleString('es-AR', {  style: 'currency',  currency: 'ARS', minimumFractionDigits: 0, maximumFractionDigits: 0,}) : prod.precio.toLocaleString('es-AR', {  style: 'currency',  currency: 'ARS', minimumFractionDigits: 0, maximumFractionDigits: 0,})}</p>
       </div>
 
       <div className="fila-botones">
