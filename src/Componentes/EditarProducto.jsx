@@ -22,10 +22,14 @@ const EditarProducto = ({ setIsEditProducto,
     setValue
   } = useForm();
 
+  useEffect(() => {
+    console.log(productoEditar)
+  },[productoEditar])
+
   const [isOfertaEdit, setIsOfertaEdit] = useState(productoEditar.oferta);
   const [archivoOriginal, setArchivoOriginal] = useState(null);
-  const [ isTallesNumericos, setIsTallesNumericos ] = useState(false);
-  const [ isTallesLetras, setIsTallesLetras ] = useState(false);
+  const [ isTallesNumericos, setIsTallesNumericos ] = useState(productoEditar.tallesNumericos);
+  const [ isTallesLetras, setIsTallesLetras ] = useState(productoEditar.tallesLetrasNum);
   const [ isColor, setIsColor ] = useState(false);
   const [ isMarca, setIsMarca ] = useState(false);
   const [ tallesLetras, setTallesLetras ] = useState([]);
@@ -135,15 +139,17 @@ const eliminarImagenAnterior = async () => {
       precio: Number(data.precio) || Number(productoEditar.precio),
       precioUnitario: Number(data.precio) || Number(productoEditar.precio),
       oferta: isOfertaEdit,
+      tallesNumericos: isTallesNumericos,
+      tallesLetrasNum: isTallesLetras,
       porcentajeOff: isOfertaEdit ? Number(data.porcentaje) : null,
       urlImg: nuevaUrl ? nuevaUrl : productoEditar.urlImg,
       public_id: nuevoPublicId ? nuevoPublicId : productoEditar.public_id,
       categoria: data.categoria || productoEditar.categoria,
-      tallesLetras: tallesLetras.length > 0 ? tallesLetras : productoEditar.tallesLetras,
-      color: watch('color') ? watch('color') : productoEditar.color,
-      tallesNumericosDesde: watch('talleDesde') ? watch('talleDesde') : productoEditar.tallesNumericosDesde,
-      tallesNumericosHasta: watch('talleHasta') ? watch('talleHasta') : productoEditar.tallesNumericosHasta, 
-      marca: watch('marca') ? watch('marca') : productoEditar.marca
+      tallesLetras: isTallesLetras ? tallesLetras.length > 0 ? tallesLetras : productoEditar.tallesLetras : [],
+      color: !isColor ? watch('color') ? watch('color') : productoEditar.color : '',
+      tallesNumericosDesde: isTallesNumericos ? watch('talleDesde') ? watch('talleDesde') : productoEditar.tallesNumericosDesde : null,
+      tallesNumericosHasta: isTallesNumericos ? watch('talleHasta') ? watch('talleHasta') : productoEditar.tallesNumericosHasta : null, 
+      marca: !isMarca ? watch('marca') ? watch('marca') : productoEditar.marca : ''
     };
 
     const result = await editarProducto(productoEditar.id, productoActualizado);
@@ -242,7 +248,7 @@ const eliminarImagenAnterior = async () => {
               message:'Campo obligatorio'
             },
             pattern: {
-              value: /^[A-Za-z/*\-+_.\\]+$/, 
+              value: /^[A-Za-z\s/*\-+_.\\]+$/, 
               message:'Ingrese solo Letras'
             }
           })}
@@ -255,7 +261,9 @@ const eliminarImagenAnterior = async () => {
 
         <label>
           Color
-          <input type="checkbox" checked={productoEditar.color ? true : false } onChange={(e) => { setIsColor((prev) => !prev)}}/>
+          <input type="checkbox" checked={productoEditar.color ? true : false } 
+            onChange={(e) => { setIsColor((prev) => !prev)}}
+          />
         </label>
         {
            isColor || productoEditar.color ?
@@ -283,17 +291,19 @@ const eliminarImagenAnterior = async () => {
 
          <label>
           Talles
-          <input type="checkbox" checked={productoEditar.tallesLetras.length > 0 ? true : false }onChange={(e) => { setIsTallesLetras((prev) => !prev)}}/>
+          <input type="checkbox" checked={ isTallesLetras } 
+            onChange={(e) => { setIsTallesLetras((prev) => !prev)}}
+          />
         </label>
         { 
-        isTallesLetras || productoEditar.tallesLetras.length > 0 ? 
+        isTallesLetras ? 
         <label className="lebel-talles-letras">
           <div className="contenedor-input-talles">
         <input type="text" placeholder="Talle" 
           className='input-talles-letras'
           {...register('talleLetra', {
             required:{
-              value: true,
+              value: false, // puse false porque sino, no me deja guardar los campos
               message:'Campo obligatorio'
             },
             pattern: {
@@ -309,8 +319,13 @@ const eliminarImagenAnterior = async () => {
         >Cargar</button>
         </div>
         <div className="contenedor-lista-talles">
-          { 
-            
+
+          {
+            tallesLetras.length > 0 ? 
+              tallesLetras.map((talle, i) => (
+                <button type="button" key={i}>{talle}</button>
+              ))
+            :             
             productoEditar.tallesLetras.length > 0 && 
               productoEditar.tallesLetras.map((talle, i) => (
                 <button type="button" key={i}>{talle}</button>
@@ -323,9 +338,11 @@ const eliminarImagenAnterior = async () => {
         }
         <label>
           Talles Numéricos
-          <input type="checkbox" checked={productoEditar.tallesNumericosDesde ? true : false} onChange={(e) => { setIsTallesNumericos((prev) => !prev)}}/>
+          <input type="checkbox" checked={ isTallesNumericos } 
+            onChange={(e) => { setIsTallesNumericos((prev) => !prev)}}
+          />
         </label>
-        { isTallesNumericos || productoEditar.tallesNumericosDesde && 
+        { isTallesNumericos && 
         <label>
         <input type="text" placeholder="Desde" 
         defaultValue={productoEditar.tallesNumericosDesde}
