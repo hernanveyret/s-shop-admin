@@ -109,6 +109,8 @@ useEffect(() => {
       oferta: isOferta,
       tallesNumericos: isTallesNumericos,
       tallesLetrasNum: isTallesLetras,
+      isMarca: isMarca,
+      isColor: isColor,
       porcentajeOff: isOferta ? Number(watch('porcentaje')): null,
       urlImg: url,
       categoria: watch('categoria'),

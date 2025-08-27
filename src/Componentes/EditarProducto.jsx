@@ -22,16 +22,13 @@ const EditarProducto = ({ setIsEditProducto,
     setValue
   } = useForm();
 
-  useEffect(() => {
-    console.log(productoEditar)
-  },[productoEditar])
 
   const [isOfertaEdit, setIsOfertaEdit] = useState(productoEditar.oferta);
   const [archivoOriginal, setArchivoOriginal] = useState(null);
   const [ isTallesNumericos, setIsTallesNumericos ] = useState(productoEditar.tallesNumericos);
   const [ isTallesLetras, setIsTallesLetras ] = useState(productoEditar.tallesLetrasNum);
-  const [ isColor, setIsColor ] = useState(false);
-  const [ isMarca, setIsMarca ] = useState(false);
+  const [ isColor, setIsColor ] = useState(productoEditar.isColor);
+  const [ isMarca, setIsMarca ] = useState(productoEditar.isMarca);
   const [ tallesLetras, setTallesLetras ] = useState([]);
 
   const convertirAWebP = (file) => {
@@ -141,15 +138,17 @@ const eliminarImagenAnterior = async () => {
       oferta: isOfertaEdit,
       tallesNumericos: isTallesNumericos,
       tallesLetrasNum: isTallesLetras,
+      isColor: isColor,
+      isMarca, isMarca,
       porcentajeOff: isOfertaEdit ? Number(data.porcentaje) : null,
       urlImg: nuevaUrl ? nuevaUrl : productoEditar.urlImg,
       public_id: nuevoPublicId ? nuevoPublicId : productoEditar.public_id,
       categoria: data.categoria || productoEditar.categoria,
       tallesLetras: isTallesLetras ? tallesLetras.length > 0 ? tallesLetras : productoEditar.tallesLetras : [],
-      color: !isColor ? watch('color') ? watch('color') : productoEditar.color : '',
+      color: isColor ? watch('color') ? watch('color') : productoEditar.color : '',
       tallesNumericosDesde: isTallesNumericos ? watch('talleDesde') ? watch('talleDesde') : productoEditar.tallesNumericosDesde : null,
       tallesNumericosHasta: isTallesNumericos ? watch('talleHasta') ? watch('talleHasta') : productoEditar.tallesNumericosHasta : null, 
-      marca: !isMarca ? watch('marca') ? watch('marca') : productoEditar.marca : ''
+      marca: isMarca ? watch('marca') ? watch('marca') : productoEditar.marca : ''
     };
 
     const result = await editarProducto(productoEditar.id, productoActualizado);
@@ -233,10 +232,11 @@ const eliminarImagenAnterior = async () => {
 
         <label>
           Marca
-          <input type="checkbox" checked={productoEditar.marca ? true : false } onChange={(e) => { setIsMarca((prev) => !prev)}}/>
+          <input type="checkbox" checked={ isMarca } 
+            onChange={(e) => { setIsMarca((prev) => !prev)}}/>
         </label>
         {
-          isMarca || productoEditar.marca ?
+          isMarca ?
             <label className="lebel-talles-letras">
           <div className="contenedor-input-talles">
         <input type="text" placeholder="Marca" 
@@ -261,12 +261,12 @@ const eliminarImagenAnterior = async () => {
 
         <label>
           Color
-          <input type="checkbox" checked={productoEditar.color ? true : false } 
+          <input type="checkbox" checked={ isColor } 
             onChange={(e) => { setIsColor((prev) => !prev)}}
           />
         </label>
         {
-           isColor || productoEditar.color ?
+           isColor ?
         <label className="lebel-talles-letras">
           <div className="contenedor-input-talles">
         <input type="text" placeholder="Color" 
