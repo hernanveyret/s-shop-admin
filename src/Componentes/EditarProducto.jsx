@@ -270,7 +270,7 @@ const eliminarImagenAnterior = async () => {
               message:'Campo obligatorio'
             },
             pattern: {
-              value: /^[A-Za-z/*\-+_.\\]+$/, 
+              value: /^[A-Za-z\s/*\-+_.\\]+$/,  // acepta solo letras mayusculas, minusculas, simboloes y espacio
               message:'Ingrese solo Letras'
             }
           })}
@@ -293,11 +293,11 @@ const eliminarImagenAnterior = async () => {
           className='input-talles-letras'
           {...register('talleLetra', {
             required:{
-              value: false,
+              value: true,
               message:'Campo obligatorio'
             },
             pattern: {
-              value: /^[A-Za-z]+$/,
+                value: /^[A-Za-z0-9]+$/, // Permite solo letras y numeros
               message:'Ingrese solo Letras'
             }
           })}
@@ -335,7 +335,7 @@ const eliminarImagenAnterior = async () => {
               message:'Campo obligatorio'
             },
             pattern: {
-              value: /^[0-9]+([.][0-9]+)?$/,
+                    value: /^[0-9]+$/, // Solo permite numeros enteros
               message:'Ingrese solo numeros'
             }
           })}
@@ -348,7 +348,7 @@ const eliminarImagenAnterior = async () => {
               message:'Campo obligatorio'
             },
             pattern: {
-              value: /^[0-9]+([.][0-9]+)?$/,
+                    value: /^[0-9]+$/, // Solo permite numeros enteros
               message:'Ingrese solo numeros'
             }
           })}
@@ -377,7 +377,7 @@ const eliminarImagenAnterior = async () => {
               {...register('porcentaje', {
                 required: { value: true, message: 'Campo obligatorio' },
                 pattern: {
-                  value: /^[0-9]+([.][0-9]+)?$/,
+                  value: /^[0-9]+([.][0-9]+)?$/, // Permite numeros enteros y decimales
                   message: 'Ingrese solo números',
                 },
               })}
