@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useForm } from 'react-hook-form';
 import { guardarProducto } from "../firebase/auth.js";
+import Loader from "./Loader.jsx";
 
 function SubirImagenWebP({setAdd,
                          setInitBtn, 
@@ -23,6 +24,7 @@ function SubirImagenWebP({setAdd,
   const [ tallesLetras, setTallesLetras ] = useState([]);
   const [ publicId, setIsPublicId ] = useState(null);
   const [ mensageErrorImagen, setMensageErrorImagen ] = useState(null)
+  const [ isLoader, setIsLoader] = useState(false)
   
 
   const {
@@ -132,6 +134,7 @@ useEffect(() => {
     setIsTallesLetras(false);
     setIsColor(false);
     setIsMarca(false);
+    setIsLoader(false)
   }
 }, [url, publicId]);
 
@@ -141,6 +144,7 @@ useEffect(() => {
   }
 
   const onSubmit = async (data) => {
+    setIsLoader(true)
   if (!archivoOriginal) {
     setMensageErrorImagen('Debe seleccionar una imagen')
     return;
@@ -153,6 +157,7 @@ useEffect(() => {
 
   return (
     <div className="container-general">
+      { isLoader && <Loader /> }
       <div className="header-general">
         <h4>Crear Productos</h4>
       </div>
