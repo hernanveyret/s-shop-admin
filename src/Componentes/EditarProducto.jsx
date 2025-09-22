@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { editarProducto } from '../firebase/auth.js';
+import Loader from './Loader.jsx';
 import './edit-producto.css';
 
 const EditarProducto = ({ setIsEditProducto, 
@@ -30,6 +31,7 @@ const EditarProducto = ({ setIsEditProducto,
   const [ isColor, setIsColor ] = useState(productoEditar.isColor);
   const [ isMarca, setIsMarca ] = useState(productoEditar.isMarca);
   const [ tallesLetras, setTallesLetras ] = useState([]);
+  const [ isLoader, setIsLoader ] = useState(false)
 
   const convertirAWebP = (file) => {
     return new Promise((resolve) => {
@@ -116,6 +118,7 @@ const eliminarImagenAnterior = async () => {
   }
 
   const onSubmit = async (data) => {
+    setIsLoader(true)
     let nuevaUrl = productoEditar.urlImg;
     let nuevoPublicId = productoEditar.public_id;
 
@@ -139,7 +142,7 @@ const eliminarImagenAnterior = async () => {
       tallesNumericos: isTallesNumericos,
       tallesLetrasNum: isTallesLetras,
       isColor: isColor,
-      isMarca, isMarca,
+      isMarca: isMarca,
       porcentajeOff: isOfertaEdit ? Number(data.porcentaje) : null,
       urlImg: nuevaUrl ? nuevaUrl : productoEditar.urlImg,
       public_id: nuevoPublicId ? nuevoPublicId : productoEditar.public_id,
@@ -157,6 +160,7 @@ const eliminarImagenAnterior = async () => {
       setIsConfirm(true)
       reset();
       setIsEditProducto(false);
+      setIsLoader(false)
     }else{
       setTextoError('Error al actualizar el producto');
       setIsError(true);
@@ -165,6 +169,9 @@ const eliminarImagenAnterior = async () => {
 
   return (
     <div className="contenedor-edit-producto">
+      { isLoader && 
+        <Loader />
+      }
       <form 
       className="edit-producto-form"
       onSubmit={handleSubmit(onSubmit)}>

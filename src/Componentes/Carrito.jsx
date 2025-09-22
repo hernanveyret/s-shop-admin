@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getData, getDataCategorias, borrarCategoria, editActivate } from '../firebase/auth.js';
+import Loader from './Loader.jsx';
 import './contenedorProductos.css';
 
 const Carrito = ({
@@ -23,6 +24,7 @@ const Carrito = ({
 }) => {
   const [categoriaFiltrada, setCategoriaFiltrada] = useState('');
   const [ productoSelect, setProductoSelect ] = useState(null);
+  const [ isLoader, setIsLoader ] = useState(false)
   
   const sacarOferta = (precio, porcentaje) => {
     const precioOff = precio * porcentaje / 100;
@@ -44,6 +46,7 @@ const Carrito = ({
 
   useEffect(() => {
     if(borrar){
+      setIsLoader(true)
       handleEliminarProducto(productoSelect);
       setIsConfirmBorrado(false)
       setBorrar(false);
@@ -55,6 +58,7 @@ const Carrito = ({
     try {
       await eliminarImagen('Producto borrado con exito', prod.public_id);
       await borrarCategoria('productos', prod.id);
+      setIsLoader(false)
     } catch (error) {
       console.error('❌ Error al eliminar imagen o producto:', error);
     }
@@ -80,6 +84,10 @@ const Carrito = ({
     
     return (
     <div key={prod.id} className="fila-producto">
+      {
+        isLoader &&
+          <Loader />
+      }
       <img src={prod.urlImg} alt={prod.titulo} />
 
       <div className="fila-datos">

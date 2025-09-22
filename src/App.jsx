@@ -10,6 +10,7 @@ import Error from './Componentes/Error.jsx';
 import InstallPrompt from './Componentes/InstallPrompt.jsx';
 import Compartir from './Componentes/Compartir.jsx';
 import VerQr from './Componentes/VerQr.jsx';
+import Loader from './Componentes/Loader.jsx';
 
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase/config.js";
@@ -56,7 +57,7 @@ function App() {
   const [ isConfirmBorrado, setIsConfirmBorrado ] = useState(false);
   const [ borrar, setBorrar ] = useState(false);
   const [ isCompartir, setIsCompartir]  = useState(false);
-
+  const [ isLoader, setIsLoader ] = useState(false)
   const [ usuarioActual, setUsuarioActual ] = useState(null) 
 
   const [ productoEditar, setProductoEditar ] = useState(null)
@@ -209,21 +210,25 @@ function App() {
 
   // Esta es la función que sube la imagen y luego crea la categoria
 const onSubmit = async (data) => {
+ 
   const filtro = categorias.some(c => c.categoria[0].toUpperCase() + c.categoria.slice(1) === data.categoria[0].toUpperCase() + data.categoria.slice(1))
   if(filtro){
     setTextoError('Categoria ya creada')
     setIsError(true);
+    
     return;
   }
   
   if (!archivoOriginal) {
     setMensageErrorImagen('Debe seleccionar una imagen')
+    
     return;
   }else{
     setMensageErrorImagen(null)
   }
 
   try {
+     setIsLoader(true)
     const webpBlob = await convertirAWebP(archivoOriginal);
     const resultado = await subirACloudinary(webpBlob, archivoOriginal.name);
 
@@ -245,6 +250,7 @@ const onSubmit = async (data) => {
     setAchivoOriginal(null);
     setTextoConfirm('Categoria creada con exito');
     setIsConfirm(true);
+    setIsLoader(false)
 
   } catch (error) {
     setTextoError('Error al crear la categoria')
@@ -252,10 +258,15 @@ const onSubmit = async (data) => {
   }
 };
 
+//----------- Componente Create categorias -------------------------------------------------
   const CrearCategorias = () => {
     
     return (
       <div className="container-general">
+        {
+          isLoader &&
+            <Loader />
+        }
         <div className='header-general'>
           <h4>Crear Categorias</h4>
       </div>
@@ -355,6 +366,8 @@ const onSubmit = async (data) => {
     )
   };
 
+  //----------- fin crear categorias -------------------------------------------------
+
   const ActualizarEmailContraseña = () => {
     const actualizar = async (data) => {
       //console.log(data)
@@ -383,7 +396,6 @@ const onSubmit = async (data) => {
   }
 
   const Login = () => {
-
     const subMitLogin = async (data) => {
       const result = await loginConMail (data)
       if(!result.ok){
