@@ -141,8 +141,7 @@
 }
 
 .categoria-btn{
-    width:42px;
-    height:42px;
+    padding: 10px;
     border:none;
     border-radius:50%;
     display:flex;
