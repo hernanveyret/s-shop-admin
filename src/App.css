@@ -152,10 +152,10 @@ input[type='password']:focus {
   gap: 5px;
   flex-wrap: wrap;
   margin: 10px auto;
-  
+  color: black;
 }
 .lista-categorias li {
-  background-color: #ededed;  
+  background-color: white;  
   list-style: none;  
   display: flex;
   justify-content: center;

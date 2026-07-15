@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form';
+
 import './App.css'
+import './crearCategorias.css';
+
 import SubirImagenWebP from './Componentes/SubirImagenWebp'
 import Carrito from './Componentes/Carrito';
 import EditarProducto from './Componentes/EditarProducto.jsx';
@@ -262,107 +265,168 @@ const onSubmit = async (data) => {
   const CrearCategorias = () => {
     
     return (
-      <div className="container-general">
-        {
-          isLoader &&
-            <Loader />
-        }
-        <div className='header-general'>
-          <h4>Crear Categorias</h4>
-      </div>
-      <section className='container-crear-categorias'>      
-        <form 
-          className='form-productos'
-          onSubmit={handleSubmit(onSubmit)}
-        >
-          <input
-            type="text" 
-            placeholder="Nombre de la categoría"
-            {...register('categoria', {
-              required: {
-                value: true,
-                message:'Campo Obligatorio'
-              }
-            })
-            }
-          />
-          { errors.categoria?.message && <p style={{color:'red'}}>{errors.categoria.message}</p> }
+      <div className="categorias-page">
+  {isLoader && <Loader />}
 
-          <label>Ingrese una imagen descriptiva</label>
-          <input
-            type="file"
-            accept="image/*"
-            onChange={(e) => {
-              setAchivoOriginal(e.target.files[0]);
-              setMensageErrorImagen(null);
-            }}
-          />
-          {archivoOriginal && (
-            <p>Archivo seleccionado: {archivoOriginal.name}</p>
-          )}
-          {
-            mensageErrorImagen && (
-              <p style={{color:'red'}}>{mensageErrorImagen}</p>
-            )
-          }
-          <input type="submit" value="CARGAR" />
-        </form>
-        <ul className='lista-categorias'>
-          {categorias.length === 0 ? (
-            <li>No hay categorías aún</li>
-          ) : (
-            categorias.map(c => (
-              <li key={c.id} style={{display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:'8px'}}>
-                <div style={{display:'flex', alignItems:'center'}}>
-                  <img src={c.urlImg} alt={c.categoria} style={{width:'40px', height:'40px', marginRight:'8px', objectFit:'cover', borderRadius:'4px'}}/>
-                  <span>{c.categoria}</span>
-                </div>
-                <div>
-                  <button
-                    className="btn-categorias"
-                    onClick={() => { 
-                      setIsEditCategorias((prev) => !prev);
-                      setIdCategoria(c.id); 
-                      setNombreCategoria(c.categoria)
-                    }}
-                    title="Editar categoría"
-                    style={{marginRight:'4px'}}
+  <header className="categorias-header">
+    <h2>Crear Categorías</h2>
+  </header>
+
+  <div className="categorias-layout">
+
+    <section className="categorias-card">
+
+      <form
+        className="categorias-form"
+        onSubmit={handleSubmit(onSubmit)}
+      >
+
+        <input
+          className="categorias-input"
+          type="text"
+          placeholder="Nombre de la categoría"
+          {...register("categoria", {
+            required: {
+              value: true,
+              message: "Campo Obligatorio",
+            },
+          })}
+        />
+
+        {errors.categoria?.message && (
+          <p className="categorias-error">
+            {errors.categoria.message}
+          </p>
+        )}
+
+        <label className="categorias-label">
+          Imagen descriptiva
+        </label>
+
+        <input
+          className="categorias-file"
+          type="file"
+          accept="image/*"
+          onChange={(e) => {
+            setAchivoOriginal(e.target.files[0]);
+            setMensageErrorImagen(null);
+          }}
+        />
+
+        {archivoOriginal && (
+          <p className="categorias-file-name">
+            {archivoOriginal.name}
+          </p>
+        )}
+
+        {mensageErrorImagen && (
+          <p className="categorias-error">
+            {mensageErrorImagen}
+          </p>
+        )}
+
+        <input
+          className="categorias-submit"
+          type="submit"
+          value="CARGAR"
+        />
+
+      </form>
+
+    </section>
+
+    <section className="categorias-list-card">
+
+      <h3>Categorías creadas</h3>
+
+      <ul className="categorias-lista">
+
+        {categorias.length === 0 ? (
+          <li className="categorias-vacia">
+            No hay categorías aún
+          </li>
+        ) : (
+
+          categorias.map((c) => (
+
+            <li
+              key={c.id}
+              className="categoria-item"
+            >
+
+              <div className="categoria-info">
+
+                <img
+                  className="categoria-imagen"
+                  src={c.urlImg}
+                  alt={c.categoria}
+                />
+
+                <span>{c.categoria}</span>
+
+              </div>
+
+              <div className="categoria-acciones">
+
+                <button
+                  className="categoria-btn editar"
+                  onClick={() => {
+                    setIsEditCategorias((prev) => !prev);
+                    setIdCategoria(c.id);
+                    setNombreCategoria(c.categoria);
+                  }}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="24"
+                    viewBox="0 -960 960 960"
+                    width="24"
+                    fill="currentColor"
                   >
-                    {/* ícono editar */}
-                    <svg xmlns="http://www.w3.org/2000/svg" 
-                      height="24px" 
-                      viewBox="0 -960 960 960" 
-                      width="24px" 
-                      fill="black">
-                      <path d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z"/>
-                    </svg>
-                  </button>
-                  {/* borrar categoria */}
-                  <button
-                    className='btn-categorias'
-                    onClick={() => {
-                      eliminarImagen('Categoria borrada con exito',c.public_id);
-                      borrarCategoria('categorias', c.id);
-                    }
-                    }
-                    title="Borrar categoría"
+                    <path d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z"/>
+                  </svg>
+                </button>
+
+                <button
+                  className="categoria-btn borrar"
+                  onClick={() => {
+                    eliminarImagen(
+                      "Categoria borrada con exito",
+                      c.public_id
+                    );
+
+                    borrarCategoria(
+                      "categorias",
+                      c.id
+                    );
+                  }}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="24"
+                    viewBox="0 -960 960 960"
+                    width="24"
+                    fill="currentColor"
                   >
-                    {/* ícono borrar */}
-                    <svg xmlns="http://www.w3.org/2000/svg" 
-                      height="24px" 
-                      viewBox="0 -960 960 960" 
-                      width="24px" 
-                      fill="black">
-                      <path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/>
-                    </svg>
-                  </button>
-                </div>
-              </li>
-            ))
-          )}
-        </ul>
-        </section>
-      </div>
+                    <path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/>
+                  </svg>
+                </button>
+
+              </div>
+
+            </li>
+
+          ))
+
+        )}
+
+      </ul>
+
+    </section>
+
+  </div>
+
+</div>
     )
   };
 
