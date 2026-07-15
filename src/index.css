@@ -11,6 +11,8 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  color-scheme: light;
 }
 * {
   margin: 0;
@@ -19,7 +21,7 @@
 }
 html {
   background-color: #ededed;
-  
+   color-scheme: light;
 }
 
 button {
