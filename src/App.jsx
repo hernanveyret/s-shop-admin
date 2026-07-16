@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 
 import './App.css'
 import './crearCategorias.css';
+import './initButton.css'
 
 import SubirImagenWebP from './Componentes/SubirImagenWebp'
 import Carrito from './Componentes/Carrito';
@@ -525,6 +526,8 @@ const onSubmit = async (data) => {
     )
   }
 
+
+  /*
   const InitButon = () => {
     return (
       <>
@@ -683,10 +686,207 @@ const onSubmit = async (data) => {
       </>
     )
   }
+  */
+
+ const InitButon = () => {
+  return (
+    <>
+      <h3
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          backgroundColor: "black",
+          color: "white",
+          padding: "10px"
+        }}
+      >
+        Menu Principal
+
+        <button
+          onClick={() => setMenu((prev) => !prev)}
+          type="button"
+          style={{ background: "transparent", border: "none" }}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="26"
+            viewBox="0 -960 960 960"
+            width="26"
+            fill="white"
+          >
+            <path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z" />
+          </svg>
+        </button>
+      </h3>
+
+      <div className="contenedor-btn-init">       
+
+        {/* ======= MENU PRINCIPAL ======= */}
+
+        <button
+          className="btn-cuadro verde"
+          onClick={() => {
+            setInitBtn(false);
+            setMenu(false);
+            setAdd(false);
+            setIsCarrito(false);
+            setIsActualizar(false);
+            setIsEnvio(false);
+            setIsDatosBancarios(false);
+            setIsCompartir(false);
+            setIsCategorias((prev) => !prev);
+          }}
+        >
+          {/* Icono */}
+          <div className="icono"></div>
+
+          Categorías
+        </button>
+
+        <button
+          className="btn-cuadro amarillo"
+          onClick={() => {
+            setInitBtn(false);
+            setMenu(false);
+            setIsCarrito(false);
+            setIsEnvio(false);
+            setIsActualizar(false);
+            setIsCategorias(false);
+            setIsDatosBancarios(false);
+            setIsCompartir(false);
+            setAdd((prev) => !prev);
+          }}
+        >
+          <div className="icono"></div>
+
+          Crear Productos
+        </button>
+
+        <button
+          className="btn-cuadro naranja"
+          onClick={() => {
+            setInitBtn(false);
+            setMenu(false);
+            setIsActualizar(false);
+            setIsCategorias(false);
+            setAdd(false);
+            setIsEnvio(false);
+            setIsDatosBancarios(false);
+            setIsCompartir(false);
+            setIsCarrito((prev) => !prev);
+          }}
+        >
+          <div className="icono"></div>
+
+          Lista Productos
+        </button>
+
+        <button
+          className="btn-cuadro celeste"
+          onClick={() => {
+            setInitBtn(false);
+            setMenu(false);
+            setIsCategorias(false);
+            setAdd(false);
+            setIsCarrito(false);
+            setIsActualizar(false);
+            setIsDatosBancarios(false);
+            setIsCompartir(false);
+            setIsEnvio((prev) => !prev);
+          }}
+        >
+          <div className="icono"></div>
+
+          Costo Envío
+        </button>
+
+        <button
+          className="btn-cuadro aqua"
+          onClick={() => {
+            setInitBtn(false);
+            setMenu(false);
+            setIsCategorias(false);
+            setAdd(false);
+            setIsCarrito(false);
+            setIsEnvio(false);
+            setIsDatosBancarios(false);
+            setIsCompartir(false);
+            setIsActualizar((prev) => !prev);
+          }}
+        >
+          <div className="icono"></div>
+
+          Contraseña
+        </button>
+
+        <button
+          className="btn-cuadro rosa"
+          onClick={() => {
+            setInitBtn(false);
+            setMenu(false);
+            setAdd(false);
+            setIsCarrito(false);
+            setIsActualizar(false);
+            setIsEnvio(false);
+            setIsCompartir(false);
+            setIsDatosBancarios((prev) => !prev);
+          }}
+        >
+          <div className="icono"></div>
+
+          Datos Bancarios
+        </button>
+
+        <button
+          className="btn-cuadro gris"
+          onClick={() => {
+            setInitBtn(false);
+            setMenu(false);
+            setAdd(false);
+            setIsCarrito(false);
+            setIsActualizar(false);
+            setIsEnvio(false);
+            setIsDatosBancarios(false);
+            setIsCategorias(false);
+            setIsCompartir((prev) => !prev);
+          }}
+        >
+          <div className="icono"></div>
+
+          Compartir
+        </button>
+
+        <button
+          className="btn-cuadro rojo"
+          onClick={() => {
+            setIsDatosBancarios(false);
+            setMenu(false);
+            setIsCategorias(false);
+            setAdd(false);
+            setIsCarrito(false);
+            setIsActualizar(false);
+            setIsEnvio(false);
+            setIsCompartir(false);
+            setInitBtn((prev) => !prev);
+            setIsLogin((prev) => !prev);
+            cerrarSesion();
+          }}
+        >
+          <div className="icono"></div>
+
+          Cerrar Sesión
+        </button>
+
+      </div>
+    </>
+  );
+};
 
   return (
     <div className="container-app">
         <InstallPrompt /> 
+     
       {
         sharedLink && 
         <SharedConfirm />

@@ -66,19 +66,8 @@ input[type='password'] {
 }
 
 /* ---------------------------------------------------------------------- */
-header {
-  box-shadow: 2px 2px 4px grey;
-  border-radius: 0 0 1rem 1rem;
-}
 
-.contenedor-btn {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
-  padding: 10px 0;
-}
+
 /* ------ CREAR CATEGORIAS -------- */
 .container-general {
   width: 100%; 
@@ -240,9 +229,7 @@ input[type='password']:focus {
 /* version movile */
 @media (max-width: 768px) {
 
-.contenedor-btn button {
-  display: block;  
-}
+
   /* --------- LOGIN ---------*/
 
   .container-login form {
@@ -253,12 +240,7 @@ input[type='password']:focus {
   width: 80%;
 }
 /*-------------------------------------------------------------*/
-  .contenedor-btn {  
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  
-}
+
 .container-crear-categorias {
   display: flex;
   flex-direction: column;

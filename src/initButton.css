@@ -1,0 +1,85 @@
+.contenedor-btn-init{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
+    padding:15px;
+    
+}
+
+.btn-ancho{
+    grid-column:1 / 4;
+    height:55px;
+    border:none;
+    border-radius:18px;
+    font-size:1rem;
+    font-weight:bold;
+}
+
+.btn-medio{
+    grid-column:span 1;
+    height:55px;
+    border:none;
+    border-radius:18px;
+    font-size:1rem;
+    font-weight:bold;
+}
+
+.btn-medio:last-of-type{
+    grid-column:2 / 4;
+}
+
+.btn-cuadro{
+    aspect-ratio:1/1;
+    border:none;
+    border-radius:22px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    gap:12px;
+    font-size:1rem;
+    font-weight:600;
+}
+
+.icono{
+    width:45px;
+    height:45px;
+}
+
+/* Colores */
+
+.verde{
+    background:#d9f0df;
+}
+
+.azul{
+    background:#dce8ff;
+}
+
+.rosa{
+    background:#ffdce7;
+}
+
+.amarillo{
+    background:#fff3c8;
+}
+
+.naranja{
+    background:#ffe7c8;
+}
+
+.celeste{
+    background:#dff1ff;
+}
+
+.aqua{
+    background:#d8f7f6;
+}
+
+.gris{
+    background:#ececec;
+}
+
+.rojo{
+    background:#ffe0e0;
+}
