@@ -691,34 +691,7 @@ const onSubmit = async (data) => {
  const InitButon = () => {
   return (
     <>
-      <h3
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          backgroundColor: "black",
-          color: "white",
-          padding: "10px"
-        }}
-      >
-        Menu Principal
-
-        <button
-          onClick={() => setMenu((prev) => !prev)}
-          type="button"
-          style={{ background: "transparent", border: "none" }}
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            height="26"
-            viewBox="0 -960 960 960"
-            width="26"
-            fill="white"
-          >
-            <path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z" />
-          </svg>
-        </button>
-      </h3>
+      
 
       <div className="contenedor-btn-init">       
 
@@ -739,7 +712,20 @@ const onSubmit = async (data) => {
           }}
         >
           {/* Icono */}
-          <div className="icono"></div>
+          <div className="icono">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/>
+            </svg>
+            <svg 
+              xmlns="http://www.w3.org/2000/svg" 
+              height="24px" 
+              viewBox="0 -960 960 960" 
+              width="24px" 
+              fill="#000000">
+                <path d="m260-520 220-360 220 360H260ZM700-80q-75 0-127.5-52.5T520-260q0-75 52.5-127.5T700-440q75 0 127.5 52.5T880-260q0 75-52.5 127.5T700-80Zm-580-20v-320h320v320H120Zm580-60q42 0 71-29t29-71q0-42-29-71t-71-29q-42 0-71 29t-29 71q0 42 29 71t71 29Zm-500-20h160v-160H200v160Zm202-420h156l-78-126-78 126Zm78 0ZM360-340Zm340 80Z"/>
+            </svg>
+           
+          </div>
 
           Categorías
         </button>
@@ -917,10 +903,50 @@ const onSubmit = async (data) => {
           textoError={textoError}
           />
       }
-      <header>
+      
+      <main>
+        <header>
+          <h3
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          backgroundColor: "black",
+          color: "white",
+          padding: "10px"
+        }}
+      >
+        Menu Principal
+
+        <button
+          onClick={() => {
+            setInitBtn((prev) => !prev)            
+            setIsCarrito(false);
+            setIsEnvio(false);
+            setIsActualizar(false);
+            setIsCategorias(false);
+            setIsDatosBancarios(false);
+            setIsCompartir(false);
+            setAdd(false);
+            
+
+          }}
+          type="button"
+          style={{ background: "transparent", border: "none" }}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="26"
+            viewBox="0 -960 960 960"
+            width="26"
+            fill="white"
+          >
+            <path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z" />
+          </svg>
+        </button>
+      </h3>
         { initBtn && <InitButon /> }
       </header>
-      <main>
         { isLogin && <Login /> }
         { isEnvio && <CostoDeEnvio /> }
         { isActualizar && <ActualizarEmailContraseña /> }

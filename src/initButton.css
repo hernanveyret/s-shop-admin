@@ -42,9 +42,12 @@
 }
 
 .icono{
+    display: flex;
+    gap: 10;
     width:45px;
     height:45px;
 }
+
 
 /* Colores */
 
