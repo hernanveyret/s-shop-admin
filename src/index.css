@@ -3,25 +3,45 @@
   line-height: 1.5;
   font-weight: 400;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  
+  /* 1. Por defecto dejamos el modo oscuro si el sistema no dice lo contrario */
+  color-scheme: dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
 }
+
+/* 2. Si el usuario prefiere modo claro, cambiamos las variables acá */
+@media (prefers-color-scheme: light) {
+  :root {
+    color-scheme: light;
+    color: #213547;
+    background-color: #ededed; /* El gris claro que tenías en el html, ponelo acá */
+  }
+  
+  button {
+    background-color: #f9f9f9;
+    color: #213547; /* Aseguramos que el texto del botón sea oscuro en modo claro */
+  }
+  
+  a:hover {
+    color: #747bff;
+  }
+}
+
 * {
   margin: 0;
   padding: 0;
   -webkit-box-sizing: border-box;
+  box-sizing: border-box;
 }
+
+/* 3. El html ya no lleva un color de fondo fijo, lo hereda del :root */
 html {
-  background-color: #ededed;
- 
+  background-color: inherit;
 }
 
 button {
@@ -32,28 +52,18 @@ button {
   font-weight: 500;
   font-family: inherit;
   background-color: #1a1a1a;
+  
   cursor: pointer;
-  transition: border-color 0.25s;
-  margin-bottom: 0 10px 5px 0;
-  transition: .2s ease-in-out;
+  margin-bottom: 5px; /* Corregido el margin que tenías con 4 valores inválidos */
+  transition: background-color 0.2s ease-in-out, border-color 0.25s;
 }
+
 button:hover {
   background-color: rgb(175, 173, 173);
+  color: #1a1a1a;
 }
+
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
 }
