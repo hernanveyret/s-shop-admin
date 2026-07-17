@@ -1,88 +1,96 @@
-.contenedor-btn-init{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:15px;
-    padding:15px;
-    
+.contenedor-btn-init {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    padding: 15px;
+    box-sizing: border-box; /* Asegura que el padding no sume ancho extra */
+    width: 100%;
 }
 
-.btn-ancho{
-    grid-column:1 / 4;
-    height:55px;
-    border:none;
-    border-radius:18px;
-    font-size:1rem;
-    font-weight:bold;
+.btn-ancho {
+    grid-column: 1 / -1; /* Usar -1 es mejor, siempre estira hasta el final de la grilla */
+    height: 55px;
+    border: none;
+    border-radius: 18px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
 }
 
-.btn-medio{
-    grid-column:span 1;
-    height:55px;
-    border:none;
-    border-radius:18px;
-    font-size:1rem;
-    font-weight:bold;
+.btn-medio {
+    grid-column: span 1;
+    height: 55px;
+    border: none;
+    border-radius: 18px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
 }
 
-.btn-medio:last-of-type{
-    grid-column:2 / 4;
+.btn-medio:last-of-type {
+    grid-column: 2 / 4;
 }
 
-.btn-cuadro{
-    aspect-ratio:1/1;
-    border:none;
-    border-radius:22px;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-    gap:12px;
-    font-size:1rem;
-    font-weight:600;
-}
-
-.icono{
+.btn-cuadro {
+    aspect-ratio: 1 / 1;
+    border: none;
+    border-radius: 22px;
     display: flex;
-    gap: 10;
-    width:45px;
-    height:45px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px; /* Reducido un toque para dar más aire al texto */
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 10px;
+    box-sizing: border-box;
+    cursor: pointer;
+    min-width: 0; /* Evita que el botón colapse de forma extraña */
 }
 
-
-/* Colores */
-
-.verde{
-    background:#d9f0df;
+.icono {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 45px;
+    height: 45px;
+    flex-shrink: 0; /* Evita que el icono se deforme si el botón se achica */
 }
 
-.azul{
-    background:#dce8ff;
+/* Forzamos a que si el icono es un SVG o imagen, use el 100% de su contenedor */
+.icono svg, 
+.icono img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
 }
 
-.rosa{
-    background:#ffdce7;
-}
+/* --- Colores --- */
+.verde { background: #d9f0df; }
+.azul { background: #dce8ff; }
+.rosa { background: #ffdce7; }
+.amarillo { background: #fff3c8; }
+.naranja { background: #ffe7c8; }
+.celeste { background: #dff1ff; }
+.aqua { background: #d8f7f6; }
+.gris { background: #ececec; }
+.rojo { background: #ffe0e0; }
 
-.amarillo{
-    background:#fff3c8;
-}
+/* --- RESPONSIVE PARA CELULARES --- */
+@media (max-width: 400px) {
+    .contenedor-btn-init {
+        gap: 10px; /* Achicamos la separación en pantallas muy chicas */
+        padding: 10px;
+    }
+    
+    .btn-cuadro {
+        border-radius: 16px; /* Bordes un toque más sutiles si el botón es chico */
+        font-size: 0.9rem;  /* Achicamos la letra para que entre el texto del producto/acción */
+        gap: 6px;
+    }
 
-.naranja{
-    background:#ffe7c8;
-}
-
-.celeste{
-    background:#dff1ff;
-}
-
-.aqua{
-    background:#d8f7f6;
-}
-
-.gris{
-    background:#ececec;
-}
-
-.rojo{
-    background:#ffe0e0;
+    .icono {
+        width: 35px; /* Reducimos el tamaño del icono para que no asfixie al texto */
+        height: 35px;
+    }
 }
